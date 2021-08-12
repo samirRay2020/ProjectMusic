@@ -1,11 +1,14 @@
 html{
     font-size: 62.5%;
 }
+body{
+    margin: 0;
+}
 
 .main-div{
    width: 100vw;
    height: 100vh;
-   background-color: #f6f6f6;
+   background-color: #7a2f2f;
    display: grid;
    place-content: center;
 }
@@ -55,11 +58,10 @@ img{
 }
 
 .music-controls{
-    width: 20rem;
     display: flex;
     justify-content: space-between;
     margin: auto;
-    margin-top: 4.2rem;
+    margin-top: 4.2rem;    
 }
 
 .music-controls .fas{
@@ -114,7 +116,6 @@ img{
 
 .progress-bar{
     margin-top: 3rem;
-    
 }
 
 .progress{
@@ -134,6 +135,10 @@ img{
     appearance: none;
 }
 
+#Progress:hover{
+    background-color: #342056;
+    
+}
 .progress-meter{
     display: flex;
     justify-content: space-between;

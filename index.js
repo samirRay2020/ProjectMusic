@@ -40,7 +40,6 @@ function playingOrNot(){
 }
 
 function playSong(){
-     
         if(isPlaying==false){
             console.log("called");
             audio[index].play();
@@ -132,12 +131,26 @@ for(let i=0;i<3;i++){
 }
 
 // changing song and width if user click detected
+function currentTimeCalculator(width){
+    let cWidth = width;
+    let currentPercentage = (100*cWidth)/350; 
+    let cTimeClicked = (audio[index].duration * currentPercentage)/100;
+    return cTimeClicked;
+}
+
 document.querySelector("#progressDiv").addEventListener("click",function(event){
-  let cWidth = event["offsetX"];
-  let currentPercentage = (100*cWidth)/350; 
-  let cTimeClicked = (audio[index].duration * currentPercentage)/100;
-  audio[index].currentTime = cTimeClicked;
+   let cTimeClicked = currentTimeCalculator(event["offsetX"]);
+   audio[index].currentTime = cTimeClicked;
   if(isPlaying==false)
    playSong();
+})
+
+//Forwarding and Backwarding by 5 seconds
+document.querySelector("#fivesecforward").addEventListener("click",function(event){
+     audio[index].currentTime += 5;
+})
+
+document.querySelector("#fivesecbackward").addEventListener("click",function(event){
+    audio[index].currentTime -= 5;
 })
 
