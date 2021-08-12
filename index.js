@@ -3,21 +3,22 @@ data  = [
        name:"Sajde kiye hai",
        film:"Kata Meeta",
        songName:"song1.mp3",
-       image :"img1.jfif",
+       image :"img1.jpg",
     },
     {
         name:"Kisse se tum",
         film:"Andazz",
         songName:"song2.mp3",
-        image :"img2.jfif",   
+        image :"img2.jpg",   
      },
      {
         name:"Aj kehna",
         film:"Andazz",
         songName:"song3.mp3",
-        image :"img3.jfif" ,  
+        image :"img3.jpg" ,  
      }
 ]
+
 let audio = [0,0,0];
 function audioObject(){ 
     for(let i=0;i<3;i++){
@@ -29,7 +30,17 @@ audioObject();
 let index = 0;
 let isPlaying = false;
 
+//Checks if audio is playing or not
+function playingOrNot(){
+   if(isPlaying){
+       document.querySelector(".music-container").style.backgroundColor = "grey";
+   }else{
+       document.querySelector(".music-container").style.backgroundColor = "#ffffff";  
+   } 
+}
+
 function playSong(){
+     
         if(isPlaying==false){
             console.log("called");
             audio[index].play();
@@ -42,9 +53,8 @@ function playSong(){
             document.querySelector("#Play").classList.replace("fa-pause-circle","fa-play-circle");
             document.querySelector("img").classList.remove("anime");
         }
-
+    playingOrNot();
 }
-
 
  document.querySelector("#Play").addEventListener("click",function(){
     playSong();
@@ -64,6 +74,7 @@ document.querySelector("#forward").addEventListener("click",function(){
 })
 
 document.querySelector("#back").addEventListener("click",function(){
+
     if(isPlaying==true)
       playSong();
 
@@ -76,3 +87,57 @@ document.querySelector("#back").addEventListener("click",function(){
        playSong();
 
 })
+
+// progress bar working
+let minute = 0;
+let ans = "";
+function stom(sec){
+   sec = Math.floor(sec);
+   let min = Math.floor(sec/60);
+   let s = sec%60;
+   let ans = min+":";
+   if(s>=0 && s<=9){
+        ans += "0"+s;
+   }else 
+        ans += s; 
+    return ans;
+}
+const progressTimer = document.querySelector("#Progress");
+const duration = document.querySelector(".duration");
+const cTime = document.querySelector(".current-time");
+for(let i=0;i<3;i++){
+  audio[i].addEventListener("timeupdate",function(event){
+    const currentTime = Math.floor(event["path"]["0"]["currentTime"]);
+    const totalTime = event["path"]["0"]["duration"];
+    const progressPercentage = (currentTime*100)/totalTime;
+    progressTimer.style.width = `${progressPercentage}%`;
+
+    // music duration update
+    let totalDuration = stom(totalTime);
+    duration.textContent =  totalDuration;
+
+    // currentTime update
+    if(currentTime%60<10)
+     ans = Math.floor((currentTime/60))+":0"+(currentTime%60);
+    else 
+     ans = Math.floor((currentTime/60))+":"+(currentTime%60);
+    cTime.textContent = ans;  
+  })
+}
+
+for(let i=0;i<3;i++){
+    audio[i].addEventListener("ended",function(){
+         document.querySelector("#forward").click();
+    })
+}
+
+// changing song and width if user click detected
+document.querySelector("#progressDiv").addEventListener("click",function(event){
+  let cWidth = event["offsetX"];
+  let currentPercentage = (100*cWidth)/350; 
+  let cTimeClicked = (audio[index].duration * currentPercentage)/100;
+  audio[index].currentTime = cTimeClicked;
+  if(isPlaying==false)
+   playSong();
+})
+
