@@ -8,12 +8,13 @@ on:
   workflow_dispatch:
     # Inputs the workflow accepts.
     inputs:
-      name:
-        # Friendly description to be shown in the UI instead of 'name'
-        description: 'revert back to previous version'
-        # Input has to be provided for the workflow to run
-        required: false
-
+      clusterName:
+        description: 'Cluster Name'     
+        required: true
+      serviceName:
+        description: 'Service Name'     
+        required: true  
+        
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "greet"
@@ -26,4 +27,4 @@ jobs:
     # Runs a single command using the runners shell
       - uses: actions/checkout@v2
       - run: chmod +x ./aws_test.sh
-      - run: sh ./aws_test.sh
+      - run: sh ./aws_test.sh ${{ github.event.inputs.clusterName }} ${{ github.event.inputs.serviceName }}
