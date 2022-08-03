@@ -24,5 +24,4 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Runs a single command using the runners shell
-      - run: chmod -R 777 ./scripts/aws_rollback.sh
-      - run: sh ./scripts/aws_rollback.sh
+      - run: sh ./aws_test.sh
