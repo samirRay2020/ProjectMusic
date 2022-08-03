@@ -45,7 +45,7 @@ jobs:
        uses: actions/checkout@v2
      
      - name: Run single script
-       run: sh aws_test.sh ${{ github.event.inputs.clusterName }} ${{ github.event.inputs.serviceName }}
+       run: "sh aws_test.sh ${{ github.event.inputs.clusterName }} ${{ github.event.inputs.serviceName }}"
 #        run: |
 #         result="$(aws ecs describe-services --cluster ${{ github.event.inputs.clusterName }} --service ${{ github.event.inputs.serviceName }} --query 'services[].taskDefinition' | jq -r '.[0]')"
 #         version=${result:0-1}
