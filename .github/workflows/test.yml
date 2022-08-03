@@ -1,4 +1,6 @@
 name: learn-github-actions
+on: 
+  workflow_dispatch:
 jobs:
   rollback_version:
     runs-on: ubuntu-latest
