@@ -11,8 +11,6 @@ on:
       name:
         # Friendly description to be shown in the UI instead of 'name'
         description: 'revert back to previous version'
-        # Default value if no value is explicitly provided
-        default: 'World'
         # Input has to be provided for the workflow to run
         required: false
 
