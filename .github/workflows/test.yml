@@ -24,5 +24,6 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Runs a single command using the runners shell
-      - run: chmod +x aws_test.sh
+      - uses: actions/checkout@v2
+      - run: chmod +x ./aws_test.sh
       - run: sh ./aws_test.sh
