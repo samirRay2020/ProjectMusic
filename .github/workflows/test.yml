@@ -1,0 +1,6 @@
+name: learn-github-actions
+jobs:
+  rollback_version:
+    runs-on: ubuntu-latest
+    steps:
+      - run: Users/username/Desktop/aws_rollback.sh
