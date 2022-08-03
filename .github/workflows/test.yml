@@ -32,6 +32,10 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
+     - name: Configure J2
+       uses: sergeysova/jq-action@v2
+       with:
+        cmd: jq -n env
      - name: Checkout 
        uses: actions/checkout@v2
      - name: Run single script
