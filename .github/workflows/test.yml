@@ -4,4 +4,4 @@ jobs:
   rollback_version:
     runs-on: ubuntu-latest
     steps:
-      - run: scripts/aws_rollback.sh
+      - run: ./scripts/aws_rollback.sh
