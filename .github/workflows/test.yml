@@ -39,4 +39,4 @@ jobs:
      - name: Checkout 
        uses: actions/checkout@v2
      - name: Run single script
-       run: sh ./aws_test.sh ${{ github.event.inputs.clusterName }} ${{ github.event.inputs.serviceName }}
+       run: sh aws_test.sh ${{ github.event.inputs.clusterName }} ${{ github.event.inputs.serviceName }}
