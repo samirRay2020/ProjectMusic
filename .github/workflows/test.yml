@@ -49,6 +49,6 @@ jobs:
        run: |
         result="$(aws ecs describe-services --cluster ${{ github.event.inputs.clusterName }} --service ${{ github.event.inputs.serviceName }} --query 'services[].taskDefinition' | jq -r '.[0]')"
         version=${result:0-1}
-    #    previousVersion=$(expr $version - 1)
+        previousVersion=$(expr $version - 1)
     #    result=${result/%$version/$previousVersion}
      #   aws ecs update-service --cluster ${{ github.event.inputs.clusterName }} --service ${{ github.event.inputs.serviceName }} --task-definition $result
