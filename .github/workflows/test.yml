@@ -45,10 +45,10 @@ jobs:
        uses: actions/checkout@v2
      
      - name: Run single script
-#        run: sh aws_test.sh ${{ github.event.inputs.clusterName }} ${{ github.event.inputs.serviceName }}
-       run: |
-        result="$(aws ecs describe-services --cluster ${{ github.event.inputs.clusterName }} --service ${{ github.event.inputs.serviceName }} --query 'services[].taskDefinition' | jq -r '.[0]')"
-        version=${result:0-1}
-        previousVersion=(($version - 1))
+       run: sh aws_test.sh ${{ github.event.inputs.clusterName }} ${{ github.event.inputs.serviceName }}
+#        run: |
+#         result="$(aws ecs describe-services --cluster ${{ github.event.inputs.clusterName }} --service ${{ github.event.inputs.serviceName }} --query 'services[].taskDefinition' | jq -r '.[0]')"
+#         version=${result:0-1}
+#         previousVersion=(($version - 1))
     #    result=${result/%$version/$previousVersion}
      #   aws ecs update-service --cluster ${{ github.event.inputs.clusterName }} --service ${{ github.event.inputs.serviceName }} --task-definition $result
