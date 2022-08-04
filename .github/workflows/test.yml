@@ -25,10 +25,10 @@ jobs:
        id: login-ecr
        uses: aws-actions/amazon-ecr-login@v1   
      
-     - name: Configure J2
-       uses: sergeysova/jq-action@v2
-       with:
-        cmd: jq -n env
+#      - name: Configure J2
+#        uses: sergeysova/jq-action@v2
+#        with:
+#         cmd: jq -n env
      
      - name: Checkout 
        uses: actions/checkout@v2
