@@ -15,16 +15,31 @@ on:
         - AutoRollbackTestCluster
         - Bryntum-pdf-export-server
         required: true
-      
-      serviceName:  
+     
+      typeName:  
         type: choice
-        description: Choose a service
+        description: Choose one
         options:
-        - SecondService
-        - Nginx-Web-Service
-        - PdfExportService
+        - stage
+        - prod
         required: true
+
+      stageName:
+        type: choice
+        description: Choose a stage service
+        options:
+        - all
+        - Nginx-Web-Service
+      
+      prodName:
+        type: choice
+        description: Choose a stage service
+        options:
+        - all
+        - SecondService
+        - ThirdService
         
+      
 jobs:
   rollback-version:
     runs-on: ubuntu-latest
