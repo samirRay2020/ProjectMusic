@@ -2,12 +2,28 @@ name: Revise Version
 on:
   workflow_dispatch:
     inputs:
-      clusterName:
-        description: 'Cluster Name'     
+#       clusterName:
+#         description: 'Cluster Name'     
+#         required: true
+#       serviceName:
+#         description: 'Service Name'     
+#         required: true
+      clusterName: 
+        type: choice
+        description: Choose a cluster
+        options:
+        - AutoRollbackTestCluster
+        - Bryntum-pdf-export-server
         required: true
-      serviceName:
-        description: 'Service Name'     
-        required: true  
+      
+      serviceName:  
+        type: choice
+        description: Choose a service
+        options:
+        - SecondService
+        - Nginx-Web-Service
+        - PdfExportService
+        required: true
         
 jobs:
   rollback-version:
