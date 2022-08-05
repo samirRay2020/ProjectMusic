@@ -38,11 +38,9 @@ on:
         - all
         - SecondService
         - ThirdService
-        - "${{ github.event.inputs.typeName }}"
-        
-      
+              
 jobs:
-  rollback-version:
+  aws-configuration:
     runs-on: ubuntu-latest
 
     steps:
@@ -59,6 +57,30 @@ jobs:
      
      - name: Action to check out Repo 
        uses: actions/checkout@v2
+       
+  stage: 
+    if: ${{ github.event.inputs.typeName == 'stage' }}
+    runs-on: ubuntu-latest
+    steps:
+     - name: Run all service
+       if: ${{ github.event.inputs.stageName == 'all' }}
+       run: "bash aws_test.sh ${{ github.event.inputs.clusterName }} Nginx-Web-Service"
+     - name: Run selected service
+       if: ${{ github.event.inputs.stageName != 'all' }}
+       run: "bash aws_test.sh ${{ github.event.inputs.clusterName }} ${{ github.event.inputs.stageName }}"
+   
+  prod: 
+    if: ${{ github.event.inputs.typeName == 'prod' }}
+    runs-on: ubuntu-latest
+    steps:
+     - name: Run all service
+       if: ${{ github.event.inputs.prodName == 'all' }}
+       run: |
+        "bash aws_test.sh ${{ github.event.inputs.clusterName }} SecondService"
+        "bash aws_test.sh ${{ github.event.inputs.clusterName }} ThirdService"
+       
+     - name: Run selected service
+       if: ${{ github.event.inputs.prodName != 'all' }}
+       run: "bash aws_test.sh ${{ github.event.inputs.clusterName }} ${{ github.event.inputs.prodName }}"
      
-     - name: Run single script
-       run: "bash aws_test.sh ${{ github.event.inputs.clusterName }} ${{ github.event.inputs.serviceName }}"
+       
