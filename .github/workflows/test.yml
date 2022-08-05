@@ -54,17 +54,18 @@ jobs:
      - name: Login to Amazon ECR
        id: login-ecr
        uses: aws-actions/amazon-ecr-login@v1   
-     
-     - name: Action to check out Repo 
-       uses: actions/checkout@v2
        
   stage: 
     if: ${{ github.event.inputs.typeName == 'stage' }}
     runs-on: ubuntu-latest
     steps:
+     - name: Action to check out Repo 
+       uses: actions/checkout@v2
+     
      - name: Run all service
        if: ${{ github.event.inputs.stageName == 'all' }}
        run: "bash aws_test.sh ${{ github.event.inputs.clusterName }} Nginx-Web-Service"
+     
      - name: Run selected service
        if: ${{ github.event.inputs.stageName != 'all' }}
        run: "bash aws_test.sh ${{ github.event.inputs.clusterName }} ${{ github.event.inputs.stageName }}"
@@ -73,6 +74,9 @@ jobs:
     if: ${{ github.event.inputs.typeName == 'prod' }}
     runs-on: ubuntu-latest
     steps:
+     - name: Action to check out Repo 
+       uses: actions/checkout@v2    
+     
      - name: Run all service
        if: ${{ github.event.inputs.prodName == 'all' }}
        run: |
