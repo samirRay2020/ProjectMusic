@@ -33,11 +33,12 @@ on:
       
       prodName:
         type: choice
-        description: Choose a stage service
+        description: Choose a prod service
         options:
         - all
         - SecondService
         - ThirdService
+        - ${{ github.event.inputs.typeName }}
         
       
 jobs:
