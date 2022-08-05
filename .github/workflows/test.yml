@@ -39,15 +39,7 @@ on:
         - SecondService
         - ThirdService
               
-jobs:
-#   aws-configuration:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#      - name: Login to Amazon ECR
-#        id: login-ecr
-#        uses: aws-actions/amazon-ecr-login@v1   
-       
+jobs:  
   stage: 
     if: ${{ github.event.inputs.typeName == 'stage' }}
     runs-on: ubuntu-latest
@@ -64,7 +56,7 @@ jobs:
      
      - name: Run all service
        if: ${{ github.event.inputs.stageName == 'all' }}
-       run: "bash aws_test.sh ${{ github.event.inputs.clusterName }} Nginx-Web-Service"
+       run: bash aws_test.sh ${{ github.event.inputs.clusterName }} Nginx-Web-Service
      
      - name: Run selected service
        if: ${{ github.event.inputs.stageName != 'all' }}
@@ -87,8 +79,8 @@ jobs:
      - name: Run all service
        if: ${{ github.event.inputs.prodName == 'all' }}
        run: |
-        "bash aws_test.sh ${{ github.event.inputs.clusterName }} SecondService"
-        "bash aws_test.sh ${{ github.event.inputs.clusterName }} ThirdService"
+        bash aws_test.sh ${{ github.event.inputs.clusterName }} SecondService
+        bash aws_test.sh ${{ github.event.inputs.clusterName }} ThirdService
        
      - name: Run selected service
        if: ${{ github.event.inputs.prodName != 'all' }}
