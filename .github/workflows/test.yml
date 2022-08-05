@@ -38,7 +38,7 @@ on:
         - all
         - SecondService
         - ThirdService
-        - ${{ github.event.inputs.typeName }}
+        - "${{ github.event.inputs.typeName }}"
         
       
 jobs:
