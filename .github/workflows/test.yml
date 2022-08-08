@@ -46,12 +46,12 @@ jobs:
       - name: Run all service
         if: ${{ github.event.inputs.serviceName == 'all' }}
         run: |
-          bash deploy/revert_version.sh ${{ github.event.inputs.clusterName }} Nginx-Web-Service
-          bash deploy/revert_version.sh ${{ github.event.inputs.clusterName }} Ngix-Second
+          bash aws_test.sh ${{ github.event.inputs.clusterName }} Nginx-Web-Service
+          bash aws_test.sh ${{ github.event.inputs.clusterName }} Ngix-Second
 
       - name: Run selected service
         if: ${{ (github.event.inputs.serviceName == 'Nginx-Web-Service') || (github.event.inputs.serviceName == 'Ngix-Second') }}
-        run: "bash deploy/revert_version.sh ${{ github.event.inputs.clusterName }} ${{ github.event.inputs.serviceName }}"
+        run: "bash aws_test.sh ${{ github.event.inputs.clusterName }} ${{ github.event.inputs.serviceName }}"
 
   prod:
     if: ${{ github.event.inputs.typeName == 'prod' }}
@@ -70,11 +70,11 @@ jobs:
       - name: Run all service
         if: ${{ github.event.inputs.serviceName == 'all' }}
         run: |
-          bash deploy/revert_version.sh ${{ github.event.inputs.clusterName }} SecondService
-          bash deploy/revert_version.sh ${{ github.event.inputs.clusterName }} ThirdService
+          bash aws_test.sh ${{ github.event.inputs.clusterName }} SecondService
+          bash aws_test.sh ${{ github.event.inputs.clusterName }} ThirdService
 
       - name: Run selected service
         if: ${{ (github.event.inputs.serviceName == 'SecondService') || (github.event.inputs.serviceName == 'ThirdService') }}
-        run: "bash deploy/revert_version.sh ${{ github.event.inputs.clusterName }} ${{ github.event.inputs.serviceName }}"
+        run: "bash aws_test.sh ${{ github.event.inputs.clusterName }} ${{ github.event.inputs.serviceName }}"
 
 
