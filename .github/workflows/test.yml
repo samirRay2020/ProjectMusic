@@ -50,7 +50,9 @@ jobs:
      
      - name: Run all service
        if: ${{ github.event.inputs.stageName == 'all' }}
-       run: bash aws_test.sh ${{ github.event.inputs.clusterName }} Nginx-Web-Service
+       run: |
+        bash aws_test.sh ${{ github.event.inputs.clusterName }} Nginx-Web-Service
+        bash aws_test.sh ${{ github.event.inputs.clusterName }} Ngix-Second
      
      - name: Run selected service
        if: ${{ github.event.inputs.stageName != 'all' }}
@@ -70,7 +72,7 @@ jobs:
      - name: Action to check out Repo 
        uses: actions/checkout@v2    
      
-     - name: Run all servicef
+     - name: Run all service
        if: ${{ github.event.inputs.prodName == 'all' }}
        run: |
         bash aws_test.sh ${{ github.event.inputs.clusterName }} SecondService
