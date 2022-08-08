@@ -2,12 +2,6 @@ name: Revise Version
 on:
   workflow_dispatch:
     inputs:
-#       clusterName:
-#         description: 'Cluster Name'     
-#         required: true
-#       serviceName:
-#         description: 'Service Name'     
-#         required: true
       clusterName: 
         type: choice
         description: Choose a cluster
@@ -78,10 +72,9 @@ jobs:
      
      - name: Run all servicef
        if: ${{ github.event.inputs.prodName == 'all' }}
-       run: bash aws_test.sh aws_task_prod Web-Definition-Second ${{ github.event.inputs.clusterName }} ${{ github.event.inputs.prodName }}
-       
-      #  bash aws_test.sh ${{ github.event.inputs.clusterName }} SecondService
-      #  bash aws_test.sh ${{ github.event.inputs.clusterName }} ThirdService
+       run: |
+        bash aws_test.sh ${{ github.event.inputs.clusterName }} SecondService
+        bash aws_test.sh ${{ github.event.inputs.clusterName }} ThirdService
        
      - name: Run selected service
        if: ${{ github.event.inputs.prodName != 'all' }}
