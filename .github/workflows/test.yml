@@ -2,86 +2,79 @@ name: Revise Version
 on:
   workflow_dispatch:
     inputs:
-      clusterName: 
+      clusterName:
         type: choice
         description: Choose a cluster
         options:
-        - rocketlane-ecs-cluster
+          - AutoRollbackTestCluster
         required: true
-     
-      typeName:  
+
+      typeName:
         type: choice
         description: Choose one
         options:
-        - stage
-        - prod
+          - stage
+          - prod
         required: true
 
-      stageName:
+      serviceName:
         type: choice
-        description: Choose a stage service
+        description: Choose a service
         options:
-        - all
-        - rocketlane-stage
-      
-      prodName:
-        type: choice
-        description: Choose a prod service
-        options:
-        - all
-        - rocketlane-customdomain
-        - rocketlane-customdomain-1
-        - rocketlane-prod
-        - rocketlane-webhooks
-              
-jobs:  
-  stage: 
+          - all
+          - Nginx-Web-Service
+          - Ngix-Second
+          - SecondService
+          - ThirdService
+        required: true  
+
+jobs:
+  stage:
     if: ${{ github.event.inputs.typeName == 'stage' }}
     runs-on: ubuntu-latest
     steps:
-     - name: Configure AWS credentials
-       uses: aws-actions/configure-aws-credentials@v1
-       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_STAGE }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_STAGE }}
-        aws-region: us-east-1
-        
-     - name: Action to check out Repo 
-       uses: actions/checkout@v2
-     
-     - name: Run all service
-       if: ${{ github.event.inputs.stageName == 'all' }}
-       run: |
-        bash aws_test.sh ${{ github.event.inputs.clusterName }} rocketlane-stage
-     
-     - name: Run selected service
-       if: ${{ github.event.inputs.stageName != 'all' }}
-       run: "bash aws_test.sh ${{ github.event.inputs.clusterName }} ${{ github.event.inputs.stageName }}"
-   
-  prod: 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_STAGE }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_STAGE }}
+          aws-region: us-east-1
+
+      - name: Action to check out Repo
+        uses: actions/checkout@v2
+
+      - name: Run all service
+        if: ${{ github.event.inputs.serviceName == 'all' }}
+        run: |
+          bash deploy/revert_version.sh ${{ github.event.inputs.clusterName }} Nginx-Web-Service
+          bash deploy/revert_version.sh ${{ github.event.inputs.clusterName }} Ngix-Second
+
+      - name: Run selected service
+        if: ${{ (github.event.inputs.serviceName == 'Nginx-Web-Service') || (github.event.inputs.serviceName == 'Ngix-Second') }}
+        run: "bash deploy/revert_version.sh ${{ github.event.inputs.clusterName }} ${{ github.event.inputs.serviceName }}"
+
+  prod:
     if: ${{ github.event.inputs.typeName == 'prod' }}
     runs-on: ubuntu-latest
     steps:
-     - name: Configure AWS credentials
-       uses: aws-actions/configure-aws-credentials@v1
-       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_STAGE }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_STAGE }}
-        aws-region: us-east-1
-        
-     - name: Action to check out Repo 
-       uses: actions/checkout@v2    
-     
-     - name: Run all service
-       if: ${{ github.event.inputs.prodName == 'all' }}
-       run: |
-        bash aws_test.sh ${{ github.event.inputs.clusterName }} rocketlane-customdomain
-        bash aws_test.sh ${{ github.event.inputs.clusterName }} rocketlane-customdomain-1
-        bash aws_test.sh ${{ github.event.inputs.clusterName }} rocketlane-prod
-        bash aws_test.sh ${{ github.event.inputs.clusterName }} rocketlane-webhooks
-       
-     - name: Run selected service
-       if: ${{ github.event.inputs.prodName != 'all' }}
-       run: "bash aws_test.sh ${{ github.event.inputs.clusterName }} ${{ github.event.inputs.prodName }}"
-     
-       
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_STAGE }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_STAGE }}
+          aws-region: us-east-1
+
+      - name: Action to check out Repo
+        uses: actions/checkout@v2
+
+      - name: Run all service
+        if: ${{ github.event.inputs.serviceName == 'all' }}
+        run: |
+          bash deploy/revert_version.sh ${{ github.event.inputs.clusterName }} SecondService
+          bash deploy/revert_version.sh ${{ github.event.inputs.clusterName }} ThirdService
+
+      - name: Run selected service
+        if: ${{ (github.event.inputs.serviceName == 'SecondService') || (github.event.inputs.serviceName == 'ThirdService') }}
+        run: "bash deploy/revert_version.sh ${{ github.event.inputs.clusterName }} ${{ github.event.inputs.serviceName }}"
+
+
