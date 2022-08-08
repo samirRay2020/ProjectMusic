@@ -1,12 +1,12 @@
 #!/bin/bash
 
-all_task () {
-result="$(aws ecs list-task-definitions --family-prefix Web-Definition-Second --query 'taskDefinitionArns')"
+all_task_prod () {
+  result="$(aws ecs list-task-definitions --family-prefix $1 --query 'taskDefinitionArns')"
   len=$(echo "$result" | jq '. | length')
   for (( c=0; c<$len; c++ ))
   do 
     data=(echo "$result" | jq ".[$c]") 
-    aws ecs update-service --cluster AutoRollbackTestCluster --service all --task-definition $data
+    aws ecs update-service --cluster $2 --service $3 --task-definition $data
   done
 }
 
