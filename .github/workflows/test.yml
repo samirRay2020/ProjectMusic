@@ -76,11 +76,20 @@ jobs:
      - name: Action to check out Repo 
        uses: actions/checkout@v2    
      
-     - name: Run all service
+     - name: Run all servicef
        if: ${{ github.event.inputs.prodName == 'all' }}
        run: |
-        bash aws_test.sh ${{ github.event.inputs.clusterName }} SecondService
-        bash aws_test.sh ${{ github.event.inputs.clusterName }} ThirdService
+        result="$(aws ecs list-task-definitions --family-prefix Web-Definition-Second --query 'taskDefinitionArns')"
+        len=$(echo "$result" | jq '. | length')
+        for (( c=0; c<$len; c++ ))
+        do 
+          data=(echo "$result" | jq ".[$c]") 
+          aws ecs update-service --cluster ${{ github.event.inputs.clusterName }} --service ${{ github.event.inputs.prodName }} --task-definition $data
+        done
+
+        
+      #  bash aws_test.sh ${{ github.event.inputs.clusterName }} SecondService
+      #  bash aws_test.sh ${{ github.event.inputs.clusterName }} ThirdService
        
      - name: Run selected service
        if: ${{ github.event.inputs.prodName != 'all' }}
