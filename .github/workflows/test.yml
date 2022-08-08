@@ -78,16 +78,8 @@ jobs:
      
      - name: Run all servicef
        if: ${{ github.event.inputs.prodName == 'all' }}
-       run: |
-        result="$(aws ecs list-task-definitions --family-prefix Web-Definition-Second --query 'taskDefinitionArns')"
-        len=$(echo "$result" | jq '. | length')
-        for (( c=0; c<$len; c++ ))
-        do 
-          data=(echo "$result" | jq ".[$c]") 
-          aws ecs update-service --cluster ${{ github.event.inputs.clusterName }} --service ${{ github.event.inputs.prodName }} --task-definition $data
-        done
-
-        
+       run: bash aws_test.sh aws_task_prod Web-Definition-Second ${{ github.event.inputs.clusterName }} ${{ github.event.inputs.prodName }}
+       
       #  bash aws_test.sh ${{ github.event.inputs.clusterName }} SecondService
       #  bash aws_test.sh ${{ github.event.inputs.clusterName }} ThirdService
        
