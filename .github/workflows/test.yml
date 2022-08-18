@@ -54,11 +54,11 @@ jobs:
       - name: Run all service
         if: ${{ github.event.inputs.serviceName == 'all' }}
         run: |
-          bash aws_test.sh revert ${{ github.event.inputs.clusterName }} Nginx-Web-Service
-          bash aws_test.sh revert ${{ github.event.inputs.clusterName }} Ngix-Second
+          bash aws_test.sh  ${{ github.event.inputs.clusterName }} Nginx-Web-Service ${{ github.event.inputs.functionName }}
+          bash aws_test.sh  ${{ github.event.inputs.clusterName }} Ngix-Second ${{ github.event.inputs.functionName }}
       - name: Run selected service
         if: ${{ (github.event.inputs.serviceName == 'Nginx-Web-Service') || (github.event.inputs.serviceName == 'Ngix-Second') }}
-        run: "bash aws_test.sh revert ${{ github.event.inputs.clusterName }} ${{ github.event.inputs.serviceName }}"
+        run: "bash aws_test.sh ${{ github.event.inputs.clusterName }} ${{ github.event.inputs.serviceName }} ${{ github.event.inputs.functionName }}"
 
   prod:
     if: ${{ github.event.inputs.typeName == 'prod' }}
@@ -77,11 +77,11 @@ jobs:
       - name: Run all service
         if: ${{ github.event.inputs.serviceName == 'all' }}
         run: |
-          bash aws_test.sh revert ${{ github.event.inputs.clusterName }} SecondService
-          bash aws_test.sh revert ${{ github.event.inputs.clusterName }} ThirdService
+          bash aws_test.sh ${{ github.event.inputs.clusterName }} SecondService ${{ github.event.inputs.functionName }}
+          bash aws_test.sh ${{ github.event.inputs.clusterName }} ThirdService ${{ github.event.inputs.functionName }}
 
       - name: Run selected service
         if: ${{ (github.event.inputs.serviceName == 'SecondService') || (github.event.inputs.serviceName == 'ThirdService') }}
-        run: "bash aws_test.sh revert ${{ github.event.inputs.clusterName }} ${{ github.event.inputs.serviceName }}"
+        run: "bash aws_test.sh ${{ github.event.inputs.clusterName }} ${{ github.event.inputs.serviceName }} ${{ github.event.inputs.functionName }}"
 
 
