@@ -1,6 +1,7 @@
 #!/bin/bash
 
-revert() {
+if [[ $3 == "rollback" ]]
+then
     result="$(aws ecs describe-services --cluster $1 --service $2 --query 'services[].taskDefinition' | jq -r '.[0]')"
     version=${result:0-1}
     previousVersion=$(expr $version - 1)
@@ -13,9 +14,7 @@ revert() {
     else
         echo "Version cannot be zero"
     fi
-}
-
-restart() {
+else
     result="$(aws ecs describe-services --cluster $1 --service $2 --query 'services[].taskDefinition' | jq -r '.[0]')"
     version=${result:0-1}
 #     previousVersion=$(expr $version - 1)
@@ -27,7 +26,6 @@ restart() {
     else
         echo "Version cannot be zero"
     fi
-}
+fi
 
-"$@"
 
