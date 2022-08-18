@@ -50,7 +50,6 @@ jobs:
       - name: Action to check out Repo
         uses: actions/checkout@v2
         
-        if: ${{ github.event.inputs.functionName == 'rollback' }}
       - name: Run all service
         if: ${{ github.event.inputs.serviceName == 'all' }}
         run: |
