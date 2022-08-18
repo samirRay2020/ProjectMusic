@@ -58,7 +58,7 @@ jobs:
 
       - name: Run selected service
         if: ${{ (github.event.inputs.serviceName == 'Nginx-Web-Service') || (github.event.inputs.serviceName == 'Ngix-Second') }}
-        run: "bash aws_test.sh revert ${{ github.event.inputs.clusterName }} ${{ github.event.inputs.serviceName }}"
+        run: "bash aws_test.sh  ${{ github.event.inputs.clusterName }} ${{ github.event.inputs.serviceName }}"
 
   prod:
     if: ${{ github.event.inputs.typeName == 'prod' }}
