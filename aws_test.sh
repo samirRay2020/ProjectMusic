@@ -14,7 +14,7 @@ then
     else
         echo "Version cannot be zero"
     fi
-else
+else if [[ $3 == "restart" ]]
     result="$(aws ecs describe-services --cluster $1 --service $2 --query 'services[].taskDefinition' | jq -r '.[0]')"
     version=${result:0-1}
 #     previousVersion=$(expr $version - 1)
